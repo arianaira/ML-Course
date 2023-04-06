@@ -1,7 +1,14 @@
+import numpy as np
+from sklearn import model_selection
+from sklearn.linear_model import Ridge, Lasso
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+
 def backward_fs(X, y, estimator):
-    model = Lasso(alpha=0.001)
-    if estimator == "l2":
-        model = Ridge(alpha=0.001)
+    model = Ridge(alpha=0.001)
+    if estimator == "l1":
+        model = Lasso(alpha=0.001)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=40)
     model.fit(X_train, y_train) 
     y_pred = model.predict(X_test)
