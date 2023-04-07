@@ -5,6 +5,15 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 
 
+"""
+backward feature selection:
+first we calc mse for original set with n features
+then we calc mse for each n - 1 subset and choose the best of ot
+then we calc mse for each n - 2 subset of the previous best mse
+we continue until there is 3 features left
+in each step if the best mse of subsets is not beter that the original we terminate
+"""
+
 def backward_fs(X, y, estimator):
     model = Ridge(alpha=0.01)
     if estimator == "l1":
@@ -37,6 +46,16 @@ def backward_fs(X, y, estimator):
             break
     return X[:,selected_features]
 
+
+
+"""
+forward feature selection:
+first we calc mse for set with only two features
+then we add each feature to calc size of 3 subsets and we choose best mse
+if best mse is better than previous step we add another feature and create 4 size features , 5 and ...
+we continue until we reach original set
+in each step if the best mse is not better thant previous, we terminate and return the previous
+"""
 
 def forward_fs(X, y, estimator):
     model = Lasso(alpha=0.01)
